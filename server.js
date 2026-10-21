@@ -1,11 +1,27 @@
-// server.mjs
-import { createServer } from 'node:http';
-const server = createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello World!\n');
+import 'dotenv/config';
+import express from 'express';
+const app = express(); // app express
+const port = process.env.PORT || 3000;
+const host = process.env.HOST || 'localhost';
+
+// config template engine(ejs)
+app.set('views', './src/views')
+// Cài đặt EJS làm template engine chính cho ứng dụng(ejs)
+app.set('view engine', 'ejs')
+
+
+app.get('/', (req, res) => {
+  res.send('Hello World!\n');
 });
-// starts a simple http server locally on port 3000
-server.listen(3000, '127.0.0.1', () => {
-  console.log('Listening on 127.0.0.1:3000');
+
+app.get('/abc', (req, res) => {
+  res.send('Chào bạn');
 });
-// run with `node server.mjs`
+
+app.get('/huy', (req, res) => {
+  res.render('index.ejs');
+});
+
+app.listen(port, host, () => {
+  console.log(`Listening on http://${host}:${port}`);
+});
