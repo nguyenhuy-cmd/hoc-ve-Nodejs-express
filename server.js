@@ -1,26 +1,23 @@
 import 'dotenv/config';
 import express from 'express';
+import configViewEngine from './src/config/viewEngine.js';
+import router from './src/router/web.js';
+import connection from './src/config/database.js';
 const app = express(); // app express
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || 'localhost';
 
-// config template engine(ejs)
-app.set('views', './src/views')
-// Cài đặt EJS làm template engine chính cho ứng dụng(ejs)
-app.set('view engine', 'ejs')
+// công cụ tạo cấu hình theo mẫu ở giao diện
+configViewEngine(app);
+
+// cấu hình req.body
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
+
+// khai báo route
+app.use('/', router);
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!\n');
-});
-
-app.get('/abc', (req, res) => {
-  res.send('Chào bạn');
-});
-
-app.get('/huy', (req, res) => {
-  res.render('index.ejs');
-});
 
 app.listen(port, host, () => {
   console.log(`Listening on http://${host}:${port}`);
