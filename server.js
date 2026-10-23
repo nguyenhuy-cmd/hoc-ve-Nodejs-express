@@ -12,7 +12,7 @@ configViewEngine(app);
 
 // cấu hình req.body
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
 // khai báo route
 app.use('/', router);

@@ -1,5 +1,5 @@
 import connection from "../config/database.js";
-import {getAllUser} from "../services/CRUDService.js"
+import {getAllUser, getUserById, updateUser} from "../services/CRUDService.js"
 export const getHomePage = async(req, res) => {
     try {
         let results = await getAllUser();
@@ -45,6 +45,28 @@ export const postCreateUser = async (req, res) => {
         return res.send('Có lỗi xảy ra: ' + err.message);
     }
 };
+
+export const getUpdatePage = async(req, res) => {
+    try{
+        const userId = req.params.id;
+        let user = await getUserById(userId);
+        return res.render('edit.ejs', { dataUser: user });
+    } catch(error){
+        console.log(`>>>>> Error getUpdatePage: `, error);
+        return res.send(`Lỗi tải trang update: ${error}`);
+    }
+}
+
+export const postHandleUpdateUser = async(req, res) => {
+    try{
+        let { id, name, email, city } = req.body;
+        await updateUser(id, name, email, city);
+        return res.redirect('/');
+    } catch(error){
+        console.log(`>>>>> Error postHandleUpdateUser: `, error);
+        return res.send(`Lỗi cập nhật user: ${error}`);
+    }
+}
 
 export const getCreatePage = async(req, res) => {
     res.render('create.ejs')

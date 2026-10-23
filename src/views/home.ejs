@@ -20,8 +20,8 @@
         <a class="active" href="/">Home</a>
         <a href="/create">Create Users</a>
     </div>
+
     <div class="table-container">
-        <%= JSON.stringify(listUser)%>
         <div class="title">List User</div>
         <table>
             <tr>
@@ -31,19 +31,30 @@
                 <th>City</th>
                 <th>Actions</th>
             </tr>
-            <tr>
-                <td>Peter</td>
-                <td>Griffin</td>
-                <td>$100</td>
-                <td>$100</td>
-                <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
+            <%for(let i=0; i < listUser.length; i++){ %>
+                <tr>
+                    <td>
+                        <%= listUser[i].id %>
+                    </td>
+                    <td>
+                        <%= listUser[i].email %>
+                    </td>
+                    <td>
+                        <%= listUser[i].name%>
+                    </td>
+                    <td>
+                        <%= listUser[i].city%>
+                    </td>
 
+                    <td>
+                        <a href="/update/<%= listUser[i].id %>"><button>Edit</button></a>
+                        <button>Delete</button>
+                    </td>
+                </tr>
+                <%}%>
         </table>
     </div>
+
 </body>
 
 </html>
