@@ -1,20 +1,16 @@
-import 'dotenv/config';// lấy từ file .env
-import mysql from 'mysql2/promise';
+import 'dotenv/config';
+import mongoose from 'mongoose';
 
-// Thiết lập kết nối tới cơ sở dữ liệu
-const connection = await mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 3307,
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '123456',
-  database: process.env.DB_DATABASE || 'nguyenanhhuy',
-  waitForConnections: true,
-  connectionLimit: 10,
-  maxIdle: 10, // số lượng kết nối nhàn rỗi tối đa; giá trị mặc định bằng với `connectionLimit`
-  idleTimeout: 60000, // thời gian chờ cho các kết nối nhàn rỗi (tính bằng mili giây), giá trị mặc định là 60000
-  queueLimit: 0,
-  enableKeepAlive: true,
-  keepAliveInitialDelay: 0,
-});
+const connectDB = async () => {
+  try {
+    const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27018/nodejs-express'
+    ;
+    await mongoose.connect(uri);
+    console.log('MongoDB connected:', mongoose.connection.host);
+  } catch (error) {
+    console.error('MongoDB connection error:', error.message);
+    process.exit(1);
+  }
+};
 
-export default connection;
+export default connectDB;

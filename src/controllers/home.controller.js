@@ -1,6 +1,6 @@
-import connection from "../config/database.js";
-import {getAllUser, getUserById, updateUser} from "../services/CRUDService.js"
-export const getHomePage = async(req, res) => {
+import { getAllUser, update, deleteUser, getUserById, create } from "../services/CRUDService.js";
+
+export const getHomePage = async (req, res) => {
     try {
         let results = await getAllUser();
         return res.render('home.ejs', { listUser: results });
@@ -8,18 +8,12 @@ export const getHomePage = async(req, res) => {
         console.log(">>> Error getHomePage: ", error);
         return res.send("Lỗi tải trang chủ: " + error.message);
     }
-    
 };
 
 export const getClean = async (req, res) => {
-    let user = [];
     try {
-        const [results, fields] = await connection.query(
-            'select * from Persons p'
-        );
-
-        user = results;
-        console.log('>>>>>>> user = ', user);
+        const users = await getAllUser();
+        console.log('>>>>>>> user = ', users);
     } catch (err) {
         console.log('>>>>>>> err =', err);
     }
@@ -27,48 +21,50 @@ export const getClean = async (req, res) => {
 };
 
 export const postCreateUser = async (req, res) => {
-
-
     let { email, name, city } = req.body;
-    
     try {
-        // Vì connection cấu hình bằng mysql2/promise nên dùng await
-        const [results, fields] = await connection.query(
-            `INSERT INTO Persons (email, name, city) VALUES (?, ?, ?)`,
-            [email, name, city]
-        ); 
-        console.log('>>>>>>>>>>> Result: ', results);
-        
-        return res.send('Đã thêm 1 user thành công!');
+        const result = await create(email, name, city);
+        console.log('>>>>>>>>>>> Result: ', result);
+        return res.redirect('/');
     } catch (err) {
         console.log('>>>>>>> err =', err);
         return res.send('Có lỗi xảy ra: ' + err.message);
     }
 };
 
-export const getUpdatePage = async(req, res) => {
-    try{
-        const userId = req.params.id;
-        let user = await getUserById(userId);
-        return res.render('edit.ejs', { dataUser: user });
-    } catch(error){
-        console.log(`>>>>> Error getUpdatePage: `, error);
-        return res.send(`Lỗi tải trang update: ${error}`);
-    }
-}
-
-export const postHandleUpdateUser = async(req, res) => {
-    try{
-        let { id, name, email, city } = req.body;
-        await updateUser(id, name, email, city);
+export const updatePage = async (req, res) => {
+    let { email, name, city } = req.body;
+    let { id } = req.params;
+    try {
+        const result = await update(email, name, city, id);
+        console.log('>>>>>>>>>>> Result: ', result);
         return res.redirect('/');
-    } catch(error){
-        console.log(`>>>>> Error postHandleUpdateUser: `, error);
-        return res.send(`Lỗi cập nhật user: ${error}`);
+    } catch (err) {
+        console.log('>>>>>>> err =', err);
+        return res.send('Có lỗi xảy ra: ' + err.message);
     }
-}
+};
 
-export const getCreatePage = async(req, res) => {
-    res.render('create.ejs')
-}
+export const getEditPage = async (req, res) => {
+    let { id } = req.params;
+    try {
+        const dataUser = await getUserById(id);
+        return res.render('edit.ejs', { dataUser });
+    } catch (err) {
+        return res.send('Lỗi tải trang edit: ' + err.message);
+    }
+};
 
+export const deletePage = async (req, res) => {
+    let { id } = req.params;
+    try {
+        await deleteUser(id);
+        return res.redirect('/');
+    } catch (err) {
+        return res.send(`Đã xảy ra lỗi: ${err}`);
+    }
+};
+
+export const getCreatePage = async (req, res) => {
+    res.render('create.ejs');
+};

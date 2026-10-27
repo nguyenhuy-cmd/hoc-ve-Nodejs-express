@@ -1,29 +1,29 @@
-import connection from "../config/database.js";
+import Person from "../models/person.model.js";
 
 const getAllUser = async () => {
-    let [results, fields] = await connection.query(`SELECT * FROM Persons`);
-    return results;
-}
+    return await Person.find();
+};
 
 const getUserById = async (id) => {
-    let [results, fields] = await connection.query(
-        `SELECT * FROM Persons WHERE id = ?`, [id]
-    );
+    return await Person.findById(id);
+};
 
-    //Check result nếu result lớn hơn 0 thì lấy phần tử đầu tiên của nó nếu không thì cho rỗng
-    return results && results.length > 0 ? results[0] : {};
-}
+const update = async (email, name, city, id) => {
+    return await Person.findByIdAndUpdate(id, { email, name, city }, { new: true });
+};
 
-const updateUser = async (id, name, email, city) => {
-    let [results, fields] = await connection.query(
-        `UPDATE Persons SET name = ?, email = ?, city = ? WHERE id = ?`,
-        [name, email, city, id]
-    );
-    return results;
-}
+const deleteUser = async (id) => {
+    return await Person.findByIdAndDelete(id);
+};
+
+const create = async (email, name, city) => {
+    return await Person.create({ email, name, city });
+};
 
 export {
     getAllUser,
     getUserById,
-    updateUser
-}
+    update,
+    deleteUser,
+    create
+};

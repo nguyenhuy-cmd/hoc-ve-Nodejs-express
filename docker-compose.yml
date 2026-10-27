@@ -1,0 +1,29 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_container
+    restart: always
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_DATABASE: nguyenanhhuy
+    volumes:
+      - mongodb_data:/data/db
+
+  app:
+    build: .
+    container_name: nodejs_app_container
+    restart: always
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongodb:27018/nodejs-express
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:

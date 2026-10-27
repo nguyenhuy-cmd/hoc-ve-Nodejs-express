@@ -1,5 +1,5 @@
 import express from 'express';
-import { getHomePage, getClean, postCreateUser, getCreatePage, getUpdatePage, postHandleUpdateUser } from "../controllers/home.Controller.js";
+import { getHomePage, getClean, postCreateUser, getCreatePage, updatePage, deletePage, getEditPage } from "../controllers/home.Controller.js";
 
 const router = express.Router();
 
@@ -11,8 +11,9 @@ router.get('/create', getCreatePage);
 
 router.post('/create-user', postCreateUser);
 
-router.get('/update/:id', getUpdatePage);
+router.get('/update/:id', getEditPage);
+router.put('/update/:id', updatePage);
 
-router.post('/update-user', postHandleUpdateUser);
+router.delete('/delete/:id', deletePage)
 
 export default router;

@@ -14,12 +14,11 @@
         <a class="active" href="/create">Create User</a>
     </div>
     <div class="form-add-new">
-        <form action="/update-user" method="POST">
+        <form action="/update/<%= dataUser._id %>?_method=PUT" method="POST">
             <fieldset>
                 <legend>Update User</legend>
 
-                <!-- Trường ẩn để gửi id lên server -->
-                <input type="hidden" name="id" value="<%= dataUser.id %>">
+                <input type="hidden" name="id" value="<%= dataUser._id %>">
 
                 <div class="input-group">
                     <label for="email">Email</label>

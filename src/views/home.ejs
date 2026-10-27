@@ -34,7 +34,7 @@
             <%for(let i=0; i < listUser.length; i++){ %>
                 <tr>
                     <td>
-                        <%= listUser[i].id %>
+                        <%= listUser[i]._id %>
                     </td>
                     <td>
                         <%= listUser[i].email %>
@@ -47,8 +47,10 @@
                     </td>
 
                     <td>
-                        <a href="/update/<%= listUser[i].id %>"><button>Edit</button></a>
-                        <button>Delete</button>
+                        <a href="/update/<%= listUser[i]._id %>"><button>Edit</button></a>
+                        <form action="/delete/<%= listUser[i]._id %>?_method=DELETE" method="POST" style="display:inline">
+                            <button type="submit">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 <%}%>
