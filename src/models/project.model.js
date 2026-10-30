@@ -1,27 +1,31 @@
 import mongoose from 'mongoose';
 const projectSchema = new mongoose.Schema({
     name: {
-        type: string,
-        require: true
+        type: String,
+        required: true
     },
     startDate: String,
     endDate: String,
     description: String,
     customerInfo: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer'
+        ref: 'Customer',
+        require: true
     }],
     personInfo: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'Person'
+        ref: 'Person',
+        required: true
     }],
     leader: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'Person'
+        ref: 'Person',
+        require: true
     }],
     task: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'Task'
+        ref: 'Task',
+        require: true
     }],
     // Bạn đã tự khai báo ở đây rồi: xóa mềm
     isDeleted: { type: Boolean, default: false },

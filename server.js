@@ -24,6 +24,7 @@ import fileUpload from 'express-fileupload';
 
 // 9. Import router xử lý các API liên quan đến khách hàng (Customer)
 import routerCustomer from './src/router/customers.js';
+import routerProject from './src/router/project.js';
 
 // Khởi tạo một đối tượng (instance) ứng dụng Express
 const app = express();
@@ -66,6 +67,8 @@ app.use('/v1/api', routerApi);
 
 // Route tiền tố '/v1/customer' cho các API nghiệp vụ quản lý khách hàng
 app.use('/v1/customer', routerCustomer);
+
+app.use('/v1/project', routerProject)
 
 // Bắt đầu lắng nghe các kết nối tới server trên host và port đã cấu hình
 app.listen(port, host, () => {
