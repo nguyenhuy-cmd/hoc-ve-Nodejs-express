@@ -32,8 +32,8 @@ const app = express();
 // Lấy cổng (port) từ file .env, nếu không có thì mặc định chạy port 3000
 const port = process.env.PORT || 3000;
 
-// Lấy địa chỉ host từ file .env, nếu không có thì mặc định là 'localhost'
-const host = process.env.HOST || 'localhost';
+// Lấy địa chỉ host từ file .env, nếu không có thì mặc định là '0.0.0.0' (để deploy lên cloud được)
+const host = process.env.HOST || '0.0.0.0';
 
 // Kết nối đến MongoDB trước khi server bắt đầu nhận request (dùng top-level await trong ES Module)
 await connectDB();
