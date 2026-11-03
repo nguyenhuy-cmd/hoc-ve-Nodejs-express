@@ -1,5 +1,5 @@
 import Customer from '../models/customers.model.js'
-
+import aqp from 'api-query-params';
 const postCustomerService = async (customerData) => {
     try {
         const customer = await Customer.create(customerData);

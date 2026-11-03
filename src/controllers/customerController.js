@@ -1,9 +1,10 @@
-import { postCustomerService, getAllCustomerService, postCustomersService, updateCustomerService, deleteCustomerService,deleteCustomerArrayService } from '../services/customerService.js';
+import { postCustomerService, getAllCustomerService, postCustomersService, updateCustomerService, deleteCustomerService, deleteCustomerArrayService } from '../services/customerService.js';
 import { uploadFileServer } from '../services/apiService.js';
+
 
 const postCustomer = async (req, res) => {
     try {
-        let { name, address, phone, email, description, image } = req.body
+        let { name, address, phone, email, description, image } = req.body;
         if (!name || !address || !phone || !email) {
             throw new Error('Bạn không được bỏ trống')
         }
@@ -125,7 +126,7 @@ const deleteCustomer = async (req, res) => {
 const deleteArrayCustomer = async (req, res) => {
     try {
         const { ids } = req.body;
-         if (!ids || !Array.isArray(ids) || ids.length === 0) {
+        if (!ids || !Array.isArray(ids) || ids.length === 0) {
             return res.status(400).json({
                 errorCode: 1,
                 message: 'Vui lòng gửi mảng ids khách hàng cần xóa'

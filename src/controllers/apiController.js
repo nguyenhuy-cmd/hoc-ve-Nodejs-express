@@ -35,7 +35,6 @@ const postUserApi = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             errorCode: -1,
-            message: "Thất bại",
             message: `Lỗi server: ${err.message}`
         })
     }

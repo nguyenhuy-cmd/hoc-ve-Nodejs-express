@@ -7,12 +7,12 @@ const taskSchema = new mongoose.Schema({
     description: String,
     status: String,
     startDate: String,
-    endData: String,
+    endDate: String,
     personInfo: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Person'
     }],
-    productInfo: [{
+    projectInfo: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Project'
     }],
